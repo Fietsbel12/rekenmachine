@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Rekenmachine (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Rekenmachine (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
