@@ -10,29 +10,28 @@
     Title="Rekenmachine">
 
     <Grid>
-        <Border BorderBrush="Green" BorderThickness="2" Padding="10,10,10,50" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <!-- Rekenmachine Border -->
+        <Border BorderBrush="LightGreen" BorderThickness="2" Padding="10,10,10,50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                <!--Eerste getal-->
-                <TextBox x:Name="Number1TextBox" Width="80" Margin="5"/>
-                <!--Bewerkings ComboBox-->
-                <ComboBox x:Name="OperationComboBox" Width="80" Margin="5">
-                    <ComboBoxItem Content="+"/>
-                    <ComboBoxItem Content="-"/>
-                    <ComboBoxItem Content="*"/>
-                    <ComboBoxItem Content="/"/>
+                <TextBox x:Name="Number1TextBox" Width="70" Margin="5" />
+                <ComboBox x:Name="OperationComboBox" Width="70" Margin="5">
+                    <ComboBoxItem Content="+" />
+                    <ComboBoxItem Content="-" />
+                    <ComboBoxItem Content="×" />
+                    <ComboBoxItem Content="÷" />
                 </ComboBox>
-                <!--Tweede getal-->
-                <TextBox x:Name="Number2TextBox" Width="80" Margin="5"/>
-                <!--Bereken knop-->
-                <Button x:Name="CalculateButton" Content="=" Width="50" Margin="5" Click="CalculateButton_Click"/>
-                <!--Resultaat :D-->
-                <TextBlock x:Name="Result" FontWeight="Bold" Foreground="Green" Margin="5" Text=""/>
+                <TextBox x:Name="Number2TextBox" Width="70" Margin="5" />
+                <Button x:Name="CalculateButton" Content="=" Width="30" Margin="5" Click="CalculateButton_Click" />
+                <TextBlock x:Name="ResultTextBlock" FontWeight="Bold" Foreground="Green" Margin="5" Text="" />
             </StackPanel>
         </Border>
-        <!--Fout melding-->
-        <TextBlock x:Name="Errormsg" Foreground="Red" HorizontalAlignment="Center" Margin="5"/>
-        <Border>
-            <TextBox x:Name="History" Text="" AcceptsReturn="true"/>
+
+        <!-- Nieuwe Border voor de geschiedenis -->
+        <Border BorderBrush="LightGreen" BorderThickness="2" Padding="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+            <TextBox Text="Geschiedenis" BorderBrush="Gray" x:Name="HistoryTextBox" Width="325" Height="150" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" />
         </Border>
+
+        <!-- Foutmelding onderaan -->
+        <TextBlock x:Name="ErrorTextBlock" Foreground="Red" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center" />
     </Grid>
 </Window>

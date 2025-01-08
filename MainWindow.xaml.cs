@@ -28,64 +28,103 @@ namespace Rekenmachine
         {
             this.InitializeComponent();
         }
+        
+        private List<Berekening> berekeningen = new List<Berekening>();
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            Errormsg.Text = "";
-            Result.Text = "";
+            // Maak fout- en resultaatvelden leeg
+            ErrorTextBlock.Text = "";
+            ResultTextBlock.Text = "";
 
+            // Lees invoer
             string num1Input = Number1TextBox.Text;
             string num2Input = Number2TextBox.Text;
 
-            if (!double.TryParse(num1Input, out double number1)) 
+            // Valideer getallen
+            if (!double.TryParse(num1Input, out double number1))
             {
-                Errormsg.Text = "Ongeldig eerste getal";
+                ErrorTextBlock.Text = "Ongeldig eerste getal.";
                 return;
             }
 
-            if (!double.TryParse(num2Input, out double number2)) 
+            if (!double.TryParse(num2Input, out double number2))
             {
-                Errormsg.Text = "Ongeldig tweede getal";
+                ErrorTextBlock.Text = "Ongeldig tweede getal.";
                 return;
             }
 
+            // Haal de geselecteerde operatie op
             string operation = ((ComboBoxItem)OperationComboBox.SelectedItem)?.Content.ToString();
-            if (string.IsNullOrEmpty(operation)) 
+
+            if (string.IsNullOrEmpty(operation))
             {
-                Errormsg.Text = "Selecteer een bewerking";
+                ErrorTextBlock.Text = "Selecteer een bewerking.";
                 return;
             }
 
             double result = 0;
-            
-            try 
+
+            try
             {
-                switch (operation) 
+                // Berekening uitvoeren
+                switch (operation)
                 {
                     case "+":
                         result = number1 + number2;
                         break;
                     case "-":
-                        result = number2 - number1;
+                        result = number1 - number2;
                         break;
-                    case "*":
+                    case "×":
                         result = number1 * number2;
                         break;
-                    case "/":
+                    case "÷":
                         if (number2 == 0)
                             throw new DivideByZeroException();
                         result = number1 / number2;
                         break;
                 }
-                Result.Text = result.ToString();
+
+                // Resultaat weergeven
+                ResultTextBlock.Text = result.ToString();
+
+                // Nieuw berekening-item toevoegen aan de lijst
+                Berekening nieuweBerekening = new Berekening
+                {
+                    Number1 = number1,
+                    Number2 = number2,
+                    Operation = operation,
+                    Result = result
+                };
+                berekeningen.Add(nieuweBerekening);
+
+                // Geschiedenis bijwerken
+                UpdateHistoryTextBox();
+
+                // TextBoxen leegmaken
+                Number1TextBox.Text = "";
+                Number2TextBox.Text = "";
             }
-            catch (DivideByZeroException) 
+            catch (DivideByZeroException)
             {
-                Errormsg.Text = "Delen door nul is niet toegestaan";
+                ErrorTextBlock.Text = "Delen door nul is niet toegestaan.";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                Errormsg.Text = $"Er is een fout opgetreden: {ex.Message}";
+                ErrorTextBlock.Text = $"Er is een fout opgetreden: {ex.Message}";
+            }
+        }
+
+        private void UpdateHistoryTextBox()
+        {
+            // Leeg de geschiedenis TextBox eerst
+            HistoryTextBox.Text = "";
+
+            // Voeg elke berekening uit de lijst toe aan de TextBox
+            foreach (var berekening in berekeningen)
+            {
+                HistoryTextBox.Text += berekening.ToString() + Environment.NewLine;
             }
         }
     }
